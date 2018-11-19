@@ -78,8 +78,8 @@
     <form id="search">
         <label for="query">Search</label>
         <input id="query" name="query" v-model="searchQuery">
-        <button id="property" @click="filterByproperty()" type="button" :class="{ active: this.$root.propertyFilter}">Properties Only</button>
-        <button id="reit" @click="filterByreit()" type="button" :class="{ active: this.$root.reitFilter}">REITs Only</button>
+        <button id="property" @click="filterByProperty()" type="button" :class="{ active: this.$root.propertyFilter}">Properties Only</button>
+        <button id="reit" @click="filterByReit()" type="button" :class="{ active: this.$root.reitFilter}">REITs Only</button>
     </form>
     <tim-grid id="grid"
               :property-filter="propertyFilter"
@@ -126,24 +126,24 @@
             reitFilter: Boolean
         },
         data: function () {
-            var sortOrders = {};
+            let sortOrders = {};
             this.columns.forEach(function (key) {
                 sortOrders[key] = 1
             });
-            sortOrders = {'mogulScore': -1};
+            sortOrders['score'] = -1;
             return {
-                sortKey: 'mogulScore',
+                sortKey: 'score',
                 sortOrders: sortOrders
             }
         },
         computed: {
             filteredData: function () {
-                var sortKey = this.sortKey;
-                var filterKey = this.filterKey && this.filterKey.toLowerCase();
-                var propertyFilter = this.propertyFilter;
-                var reitFilter = this.reitFilter;
-                var order = this.sortOrders[sortKey] || 1;
-                var data = this.data;
+                let sortKey = this.sortKey;
+                let filterKey = this.filterKey && this.filterKey.toLowerCase();
+                let propertyFilter = this.propertyFilter;
+                let reitFilter = this.reitFilter;
+                let order = this.sortOrders[sortKey] || 1;
+                let data = this.data;
                 if (filterKey) {
                     data = data.filter(function (row) {
                         return Object.keys(row).some(function (key) {
@@ -185,26 +185,26 @@
     });
 
     // bootstrap the demo
-    var demo = new Vue({
+    let demo = new Vue({
         el: '#investments',
         data: {
             propertyFilter: false,
             reitFilter: false,
             searchQuery: '',
-            gridColumns: ['name', 'mogulScore', 'type'],
+            gridColumns: ['name', 'score', 'type'],
             gridData: [
-                {name: 'Swallow Hill Redevelopment', mogulScore: 88, type: 'Property'},
-                {name: 'JBGS Properties', mogulScore: 77, type: 'REIT'},
-                {name: 'Collins and Associates', mogulScore: 68, type: 'REIT'},
-                {name: 'Barnswallow', mogulScore: 72, type: 'Property'}
+                {name: 'Swallow Hill Redevelopment', score: 88, type: 'Property'},
+                {name: 'JBGS Properties', score: 77, type: 'REIT'},
+                {name: 'Collins and Associates', score: 68, type: 'REIT'},
+                {name: 'Barnswallow', score: 72, type: 'Property'}
             ]
         },
         methods: {
-            filterByproperty: function () {
+            filterByProperty: function () {
                 this.$root.propertyFilter = !this.$root.propertyFilter;
                 this.$root.reitFilter = false;
             },
-            filterByreit: function () {
+            filterByReit: function () {
                 this.$root.reitFilter = !this.$root.reitFilter;
                 this.$root.propertyFilter = false;
             }
