@@ -210,12 +210,12 @@
         methods: {
             //These methods power the filter buttons - they are exclusive, so they turn each other off when pressed
             filterByProperty: function () {
-                this.$root.propertyFilter = !this.$root.propertyFilter;
-                this.$root.reitFilter = false;
+                this.propertyFilter = !this.propertyFilter;
+                this.reitFilter = false;
             },
             filterByReit: function () {
-                this.$root.reitFilter = !this.$root.reitFilter;
-                this.$root.propertyFilter = false;
+                this.reitFilter = !this.reitFilter;
+                this.propertyFilter = false;
             }
         }
     })
