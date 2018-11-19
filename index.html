@@ -83,13 +83,13 @@
     </form>
     <br>
     <br>
-    <tim-grid id="grid"
+    <investment-grid id="grid"
               :property-filter="propertyFilter"
               :reit-filter="reitFilter"
               :data="gridData"
               :columns="gridColumns"
               :filter-key="searchQuery">
-    </tim-grid>
+    </investment-grid>
 </div>
 
 <!-- component template -->
@@ -118,7 +118,7 @@
 
 <script>
     // register the grid component
-    Vue.component('tim-grid', {
+    Vue.component('investment-grid', {
         template: '#grid-template',
         props: {
             data: Array,
@@ -141,10 +141,10 @@
         computed: {
             filteredData: function () {
                 let sortKey = this.sortKey;
-                let filterKey = this.filterKey && this.filterKey.toLowerCase();
+                let filterKey = this.filterKey && this.filterKey.toLowerCase(); // && ensures that toLowerCase doesn't generate an error if property is undefined
                 let propertyFilter = this.propertyFilter;
                 let reitFilter = this.reitFilter;
-                let order = this.sortOrders[sortKey] || 1;
+                let order = this.sortOrders[sortKey] || 1; // || 1 ensures it gets a 1 even if key is not in array
                 let data = this.data;
                 if (filterKey) {
                     data = data.filter(function (row) {
@@ -163,8 +163,10 @@
                 }
                 if (sortKey) {
                     data = data.slice().sort(function (a, b) {
+                        // Rows come in to be sorted, first step is to grab just the value from the column we want to sort by
                         a = a[sortKey];
                         b = b[sortKey];
+                        // Now compare them using basic JS comparisons, and if equal, return 0, a less, return 1, a greater, return -1
                         return (a === b ? 0 : a > b ? 1 : -1) * order
                     })
                 }
@@ -173,11 +175,13 @@
         },
         filters: {
             capitalize: function (str) {
+                // Used to display the name of the column
                 return str.charAt(0).toUpperCase() + str.slice(1)
             }
         },
         methods: {
             sortBy: function (key) {
+                // Set the column to be sorted; flip the order
                 this.sortKey = key;
                 this.sortOrders[key] = this.sortOrders[key] * -1
             }
@@ -200,6 +204,7 @@
             ]
         },
         methods: {
+            //These methods power the filter buttons - they are exclusive, so they turn each other off when pressed
             filterByProperty: function () {
                 this.$root.propertyFilter = !this.$root.propertyFilter;
                 this.$root.reitFilter = false;
