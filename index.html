@@ -45,6 +45,7 @@
             opacity: 1;
         }
 
+        /* Arrow made with CSS Borders like this: https://css-tricks.com/snippets/css/css-triangle/ */
         .arrow {
             display: inline-block;
             vertical-align: middle;
@@ -101,8 +102,7 @@
                 @click="sortBy(key)"
                 :class="{ active: sortKey == key }">
                 {{ key | capitalize }}
-                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-          </span>
+                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
             </th>
         </tr>
         </thead>
