@@ -76,8 +76,8 @@
 <!-- demo root element -->
 <div id="investments">
     <form id="search">
-        <label for="query">Name Filter</label>
-        <input id="query" name="query" v-model="searchQuery">
+        <label for="nameFilter">Name Filter</label>
+        <input id="nameFilter" name="nameFilter" v-model="nameFilter">
         <button id="property" @click="filterByProperty()" type="button" :class="{ active: this.$root.propertyFilter}">Properties Only</button>
         <button id="reit" @click="filterByReit()" type="button" :class="{ active: this.$root.reitFilter}">REITs Only</button>
     </form>
@@ -88,7 +88,7 @@
               :reit-filter="reitFilter"
               :data="gridData"
               :columns="gridColumns"
-              :filter-key="searchQuery">
+              :name-filter="nameFilter">
     </investment-grid>
 </div>
 
@@ -123,7 +123,7 @@
         props: {
             data: Array,
             columns: Array,
-            filterKey: String,
+            nameFilter: String,
             propertyFilter: Boolean,
             reitFilter: Boolean
         },
@@ -141,14 +141,14 @@
         computed: {
             filteredData: function () {
                 let sortKey = this.sortKey;
-                let filterKey = this.filterKey && this.filterKey.toLowerCase(); // && ensures that toLowerCase doesn't generate an error if property is undefined
+                let nameFilter = this.nameFilter && this.nameFilter.toLowerCase(); // && ensures that toLowerCase doesn't generate an error if property is undefined
                 let propertyFilter = this.propertyFilter;
                 let reitFilter = this.reitFilter;
                 let order = this.sortOrders[sortKey] || 1; // || 1 ensures it gets a 1 even if key is not in array
                 let data = this.data;
-                if (filterKey) {
+                if (nameFilter) {
                     data = data.filter(function (row) {
-                        return String(row['name']).toLowerCase().indexOf(filterKey) > -1
+                        return String(row['name']).toLowerCase().indexOf(nameFilter) > -1
                     })
                 }
                 if (propertyFilter) {
@@ -194,7 +194,7 @@
         data: {
             propertyFilter: false,
             reitFilter: false,
-            searchQuery: '',
+            nameFilter: '',
             gridColumns: ['name', 'score', 'type'],
             gridData: [
                 {name: 'Swallow Hill Redevelopment', score: 88, type: 'Property'},
