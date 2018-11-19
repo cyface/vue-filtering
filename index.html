@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vue Test</title>
+    <title>Vue Filtering</title>
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <style>
@@ -74,7 +74,7 @@
 <body>
 
 <!-- demo root element -->
-<div id="demo">
+<div id="investments">
     <form id="search">
         <label for="query">Search</label>
         <input id="query" name="query" v-model="searchQuery">
@@ -130,8 +130,9 @@
             this.columns.forEach(function (key) {
                 sortOrders[key] = 1
             });
+            sortOrders = {'mogulScore': -1};
             return {
-                sortKey: '',
+                sortKey: 'mogulScore',
                 sortOrders: sortOrders
             }
         },
@@ -185,7 +186,7 @@
 
     // bootstrap the demo
     var demo = new Vue({
-        el: '#demo',
+        el: '#investments',
         data: {
             propertyFilter: false,
             reitFilter: false,
