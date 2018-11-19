@@ -76,11 +76,13 @@
 <!-- demo root element -->
 <div id="investments">
     <form id="search">
-        <label for="query">Search</label>
+        <label for="query">Name Filter</label>
         <input id="query" name="query" v-model="searchQuery">
         <button id="property" @click="filterByProperty()" type="button" :class="{ active: this.$root.propertyFilter}">Properties Only</button>
         <button id="reit" @click="filterByReit()" type="button" :class="{ active: this.$root.reitFilter}">REITs Only</button>
     </form>
+    <br>
+    <br>
     <tim-grid id="grid"
               :property-filter="propertyFilter"
               :reit-filter="reitFilter"
@@ -146,9 +148,7 @@
                 let data = this.data;
                 if (filterKey) {
                     data = data.filter(function (row) {
-                        return Object.keys(row).some(function (key) {
-                            return String(row[key]).toLowerCase().indexOf(filterKey) > -1
-                        })
+                        return String(row['name']).toLowerCase().indexOf(filterKey) > -1
                     })
                 }
                 if (propertyFilter) {
